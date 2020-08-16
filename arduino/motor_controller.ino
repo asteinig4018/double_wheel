@@ -31,6 +31,10 @@ public:
     void incr_left(int numIncr);
     //void incr_right();
     //void incr_both();
+    int get_lSpeed();
+    void decr_left(int numDecr);
+    //void decr_right(int numDecr);
+    //void decr_both(int numDecr);
 };
 
 MController::MController(/* args */)
@@ -98,20 +102,67 @@ void MController::incr_left(int numIncr){
     }
 }
 
+int MController::get_lSpeed(){
+    return lcurrSpeed;
+}
+
+void MController::decr_left(int numDecr){
+    if(ldirection == forward){
+        //forward
+        lcurrSpeed -= numDecr;
+        if(lcurrSpeed < 0){
+            lcurrSpeed = 0;
+        }
+        analogWrite(motor1_dir1_pin, lcurrSpeed);
+        analogWrite(motor1_dir2_pin, 0);
+    }
+    else if(ldirection == reverse){
+        //reverse
+        lcurrSpeed -= numDecr;
+        if(lcurrSpeed < 0){
+            lcurrSpeed = 0;
+        }
+        analogWrite(motor1_dir1_pin, 0);
+        analogWrite(motor1_dir2_pin, lcurrSpeed);
+    }
+    else{
+        //stopped
+        analogWrite(motor1_dir1_pin, 0);
+        analogWrite(motor1_dir2_pin, 0);
+    }
+}
+
+MController mcontroller;
 
 void setup(){
 
     Serial.begin(115200);
-
-    MController mcontroller;
     
     mcontroller.both_stop();
+    mcontroller.set_direction(forward);
+
+    while(!Serial){
+        ;//wait for serial
+    }
 
 }
 
 
 void loop(){
-
-
+    mcontroller.incr_left(10);
+    delay(1000);
+    for(int i = 0; i < 25; i ++ ){
+        mcontroller.incr_left(10);
+        delay(1000);
+        Serial.println(mcontroller.get_lSpeed());
+    }
+    
+    delay(5000);
+    for(int i = 0; i < 25; i ++){
+        mcontroller.decr_left(10);
+        delay(1000);
+        Serial.println(mcontroller.get_lSpeed());
+    }
+    delay(10000);
 
 }
