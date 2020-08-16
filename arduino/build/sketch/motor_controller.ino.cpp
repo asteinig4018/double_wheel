@@ -21,10 +21,19 @@ private:
     /* data */
     eDirection ldirection;
     eDirection rdirection;
+    int lcurrSpeed;
+    int rcurrSpeed;
+
 public:
     MController(/* args */);
     ~MController();
     void both_stop();
+    void set_ldirection(eDirection direction);
+    void set_rdirection(eDirection direction);
+    void set_direction(eDirection direction);
+    void incr_left(int numIncr);
+    //void incr_right();
+    //void incr_both();
 };
 
 MController::MController(/* args */)
@@ -53,12 +62,51 @@ void MController::both_stop(){
     rdirection = stopped;
 }
 
+void MController::set_ldirection(eDirection direction){
+    ldirection = direction;
+}
 
-#line 54 "c:\\Users\\astei\\Documents\\dev\\summer20projects\\double_wheel\\arduino\\motor_controller.ino"
+void MController::set_rdirection(eDirection direction){
+    rdirection = direction;
+}
+
+void MController::set_direction(eDirection direction){
+    set_ldirection(direction);
+    set_rdirection(direction);
+}
+
+void MController::incr_left(int numIncr){
+    if(ldirection == forward){
+        //forward
+        lcurrSpeed += numIncr;
+        if(lcurrSpeed > 255){
+            lcurrSpeed = 255;
+        }
+        analogWrite(motor1_dir1_pin, lcurrSpeed);
+        analogWrite(motor1_dir2_pin, 0);
+    }
+    else if(ldirection == reverse){
+        //reverse
+        lcurrSpeed += numIncr;
+        if(lcurrSpeed > 255){
+            lcurrSpeed = 255;
+        }
+        analogWrite(motor1_dir1_pin, 0);
+        analogWrite(motor1_dir2_pin, lcurrSpeed);
+    }
+    else{
+        //stopped
+        analogWrite(motor1_dir1_pin, 0);
+        analogWrite(motor1_dir2_pin, 0);
+    }
+}
+
+
+#line 102 "c:\\Users\\astei\\Documents\\dev\\summer20projects\\double_wheel\\arduino\\motor_controller.ino"
 void setup();
-#line 65 "c:\\Users\\astei\\Documents\\dev\\summer20projects\\double_wheel\\arduino\\motor_controller.ino"
+#line 113 "c:\\Users\\astei\\Documents\\dev\\summer20projects\\double_wheel\\arduino\\motor_controller.ino"
 void loop();
-#line 54 "c:\\Users\\astei\\Documents\\dev\\summer20projects\\double_wheel\\arduino\\motor_controller.ino"
+#line 102 "c:\\Users\\astei\\Documents\\dev\\summer20projects\\double_wheel\\arduino\\motor_controller.ino"
 void setup(){
 
     Serial.begin(115200);
