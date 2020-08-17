@@ -29,12 +29,12 @@ public:
     void set_rdirection(eDirection direction);
     void set_direction(eDirection direction);
     void incr_left(int numIncr);
-    //void incr_right();
-    //void incr_both();
+    void incr_right(int numIncr);
+    void incr_both(int numIncr);
     int get_lSpeed();
     void decr_left(int numDecr);
-    //void decr_right(int numDecr);
-    //void decr_both(int numDecr);
+    void decr_right(int numDecr);
+    void decr_both(int numDecr);
 };
 
 MController::MController(/* args */)
@@ -102,6 +102,36 @@ void MController::incr_left(int numIncr){
     }
 }
 
+void MController::incr_right(int numIncr){
+    if(rdirection == forward){
+        //forward
+        rcurrSpeed += numIncr;
+        if(rcurrSpeed > 255){
+            rcurrSpeed = 255;
+        }
+        analogWrite(motor2_dir1_pin, rcurrSpeed);
+        analogWrite(motor2_dir2_pin, 0);
+    }
+    else if(rdirection == reverse){
+        //reverse
+        rcurrSpeed += numIncr;
+        if(rcurrSpeed > 255){
+            rcurrSpeed = 255;
+        }
+        analogWrite(motor2_dir1_pin, 0);
+        analogWrite(motor2_dir2_pin, rcurrSpeed);
+    }
+    else{
+        analogWrite(motor2_dir1_pin, 0);
+        analogWrite(motor2_dir2_pin, 0);
+    }
+}
+
+void MController::incr_both(int numIncr){
+    incr_left(numIncr);
+    incr_right(numIncr);
+}
+
 int MController::get_lSpeed(){
     return lcurrSpeed;
 }
@@ -130,6 +160,36 @@ void MController::decr_left(int numDecr){
         analogWrite(motor1_dir1_pin, 0);
         analogWrite(motor1_dir2_pin, 0);
     }
+}
+
+void MController::decr_right(int numDecr){
+    if(rdirection == forward){
+        //forward
+        rcurrSpeed -= numDecr;
+        if(rcurrSpeed < 0){
+            rcurrSpeed = 0;
+        }
+        analogWrite(motor2_dir1_pin, rcurrSpeed);
+        analogWrite(motor2_dir2_pin, 0);
+    }else if(rdirection == reverse){
+        //reverse
+        rcurrSpeed -= numDecr;
+        if(rcurrSpeed < 0){
+            rcurrSpeed = 0;
+        }
+        analogWrite(motor2_dir1_pin, 0);
+        analogWrite(motor2_dir2_pin, rcurrSpeed);
+    }
+    else{
+        //stopped
+        analogWrite(motor2_dir1_pin, 0);
+        analogWrite(motor2_dir2_pin, 0);
+    }
+}
+
+void MController::decr_both(int numDecr){
+    decr_left(numDecr);
+    decr_right(numDecr);
 }
 
 MController mcontroller;
