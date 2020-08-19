@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "programmer": "AVR ISP",
+    "sketch": "motor_controller.ino",
+    "output": "build"
+}
