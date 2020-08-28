@@ -61,6 +61,9 @@ void MController::both_stop(){
 
     ldirection = stopped;
     rdirection = stopped;
+
+    lcurrSpeed = 0;
+    rcurrSpeed = 0;
 }
 
 void MController::set_ldirection(eDirection direction){
@@ -196,33 +199,32 @@ MController mcontroller;
 
 void setup(){
 
-    Serial.begin(115200);
+    //Serial.begin(115200);
     
     mcontroller.both_stop();
     mcontroller.set_direction(forward);
 
-    while(!Serial){
-        ;//wait for serial
-    }
+    
 
 }
 
 
 void loop(){
-    mcontroller.incr_left(10);
-    delay(1000);
-    for(int i = 0; i < 25; i ++ ){
-        mcontroller.incr_left(10);
-        delay(1000);
-        Serial.println(mcontroller.get_lSpeed());
-    }
-    
+    mcontroller.set_direction(forward);
+    mcontroller.incr_both(250);
     delay(5000);
-    for(int i = 0; i < 25; i ++){
-        mcontroller.decr_left(10);
-        delay(1000);
-        Serial.println(mcontroller.get_lSpeed());
-    }
-    delay(10000);
+    mcontroller.both_stop();
+    delay(1000);
+    mcontroller.set_direction(reverse);
+    mcontroller.incr_both(250);
+    delay(5000);
+    mcontroller.both_stop();
+    delay(1000);
+    mcontroller.set_direction(forward);
+    //mcontroller.incr_left(160);
+    mcontroller.incr_right(250);
+    delay(5000);
+    mcontroller.both_stop();
+    delay(1000);
 
 }
