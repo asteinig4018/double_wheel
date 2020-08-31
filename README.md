@@ -1,3 +1,28 @@
 # Double Wheel Robot
-A test of a platform using two wheels that also act as gears driven by center motors. 
-To be 3D printed and driven with an arduino/raspberry pi.
+A completely 3D printed robotics platform with a unique design. 
+
+![Side View V1](media/side_view.jpg)
+
+## Motivation
+This project builds upon the snap fit and gear testing done with my Gearbox Mk1 Project. 
+The idea was to create a completely 3D printed platform to experiment with PID control on Arduino in a unique robot body. The large wheels don't provide a whole lot of benefit other than looking unique. 
+
+## Features
+
+### Wheels
+The large wheels have 5 points of contact:
+- The gear which drives them
+- 2 rollers on each side
+
+###image
+
+### Electronics
+- On the center breadboard is a BNO055 IMU sensor.
+- A L293DNE Quadruple Half H-Bridge is wired up to be 2 full H-Bridges and powers both the left and right motors.
+
+### Motors
+
+## Upgrades
+
+### 12V Battery Pack
+Driving the 12V DC motors with between 5V and 9V with the H-bridge proved to be too little voltage. The 12V battery pack uses 8 1.5V AA batteries to provide 12V to the motors.
