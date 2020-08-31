@@ -16,6 +16,9 @@ The large wheels have 5 points of contact:
 
 ###image
 
+### Fully 3D Printed Body (almost)
+Except for 6 M3-0.5 screws used to hold the motors, the entire body is 3D printed and held together with snap-fits or similar parts.
+
 ### Electronics
 - On the center breadboard is a BNO055 IMU sensor.
 - A L293DNE Quadruple Half H-Bridge is wired up to be 2 full H-Bridges and powers both the left and right motors.
